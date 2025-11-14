@@ -8,6 +8,18 @@
                 "navigationBarTitleText" : "首页"
             }
         },
+		{
+		        "path": "pages/map/totalMap", // 把 maps 改成 map
+		        "style": {
+		          "navigationBarTitleText": "校园总地图"
+		        }
+		},
+		{
+		      "path": "pages/shitangshangjia/map/storeMap",
+		      "style": {
+		        "navigationBarTitleText": "店铺位置地图"
+		      }
+		},
         {
             "path" : "pages/login/login",
             "style" : {

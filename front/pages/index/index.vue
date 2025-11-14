@@ -29,6 +29,9 @@
 					</block>
 				</block>
 			</view>
+			
+			
+			
 			<!-- 关于我们 -->
 			<view :style='{"padding":"0 0 30rpx","margin":"0 0 40rpx","borderRadius":"30rpx","flexWrap":"wrap","background":"#fff","display":"flex","width":"100%","height":"auto","order":"4"}'>
 				<view :style='{"padding":"0 0 0 40rpx","color":"#fff","textAlign":"left","background":"url(http://codegen.caihongy.cn/20250214/607fdecc1a9b45e7a35d80592775c303.png) center center/100% 100%","width":"100%","lineHeight":"100rpx","fontSize":"32rpx","fontWeight":"bold"}'>{{aboutUsDetail.title}}</view>
@@ -46,9 +49,74 @@
 				<view :style='{"width":"50%","background":"url(http://codegen.caihongy.cn/20201114/7856ba26477849ea828f481fa2773a95.jpg) 0% 0% / cover no-repeat","display":"none","height":"160rpx"}' />
 				<view :style='{"width":"50%","background":"url(http://codegen.caihongy.cn/20201114/7856ba26477849ea828f481fa2773a95.jpg) 0% 0% / cover no-repeat","display":"none","height":"160rpx"}' />
 			</view>
+			<!-- 总地图入口 -->
+			<view 
+			  :style='{
+			    "order": "99", 
+			    "width": "100%",
+			    "padding": "30rpx",
+			    "margin": "40rpx 0",
+			    "background": "#fff",
+			    "borderRadius": "30rpx",
+			    "display": "flex",
+			    "alignItems": "center",
+			    "justifyContent": "center",
+			    "boxShadow": "0 2rpx 10rpx rgba(0,0,0,0.05)",
+			    "border": "2rpx solid red", 
+			    "zIndex": "9999" 
+			  }' 
+			  @tap="goToMap"
+			>
+			  <text :style='{"fontSize":"34rpx","color":"#333","fontWeight":"500"}'>总地图入口</text>
+			</view>
 			<!-- 商品推荐 -->
 			<!-- 商品推荐 -->
-			
+<!--
+<view 
+  :style='{
+    "order": "100", // 比总地图入口的order大，确保在下方
+    "width": "100%",
+    "padding": "30rpx",
+    "margin": "0 0 40rpx",
+    "background": "#fff",
+    "borderRadius": "30rpx",
+    "boxShadow": "0 2rpx 10rpx rgba(0,0,0,0.05)"
+  }'
+>
+
+  <view :style='{"display":"flex","justifyContent":"space-between","alignItems":"center","marginBottom":"20rpx"}'>
+    <text :style='{"fontSize":"34rpx","color":"#333","fontWeight":"600"}'>食客真实评价</text>
+ 
+    <text 
+      :style='{"fontSize":"28rpx","color":"#666","padding":"5rpx 15rpx","border":"1rpx solid #eee","borderRadius":"20rpx"}'
+      @tap="getRandomComment"
+    >刷新评价</text>
+  </view>
+
+
+  <view :style='{"marginBottom":"25rpx","padding":"15rpx","background":"#f9f9f9","borderRadius":"15rpx"}'>
+    <text :style='{"fontSize":"30rpx","color":"#666","lineHeight":"1.6"}'>"{{ currentComment.content }}"</text>
+  </view>
+
+
+  <view :style='{"display":"flex","alignItems":"center","justifyContent":"space-between"}'>
+    <view :style='{"display":"flex","alignItems":"center"}'>
+
+      <view :style='{"width":"60rpx","height":"60rpx","borderRadius":"50%","background":"#eee","display":"flex","alignItems":"center","justifyContent":"center","marginRight":"15rpx"}'>
+        <text :style='{"fontSize":"28rpx","color":"#333","fontWeight":"600"}'>{{ currentComment.userName.charAt(0) }}</text>
+      </view>
+      <view>
+        <text :style='{"fontSize":"28rpx","color":"#333"}'>{{ currentComment.userName }}</text>
+        <text :style='{"fontSize":"24rpx","color":"#999","marginLeft":"10rpx"}'>品尝了 {{ currentComment.dishName }}</text>
+      </view>
+    </view>
+
+    <view :style='{"fontSize":"28rpx","color":"#ff4444","fontWeight":"600"}'>
+      {{ currentComment.score }}.0 分
+    </view>
+  </view>
+</view>
+-->
 			<!-- 商品列表 -->
 			<!-- 商品列表 -->
 			<!-- 新闻资讯 -->
@@ -130,6 +198,9 @@
 	import '@/assets/css/global-restaurant.css'
 	import uniIcons from "@/components/uni-ui/lib/uni-icons/uni-icons.vue"
 	export default {
+		  onLoad() {
+		    this.goToMap(); // 调用方法，测试是否可执行
+		  },
 		components: {
 			uniIcons
 		},
@@ -391,6 +462,7 @@
 			onNewsDetailTap(id) {
 				this.$utils.jump(`../news-detail/news-detail?id=${id}`)
 			},
+			
 			// 推荐列表点击详情
 			onDetailTap(tableName, id) {
 				this.$utils.jump(`../${tableName}/detail?id=${id}`)
@@ -406,6 +478,19 @@
 				});
 				// this.$utils.jump(`../${tableName}/list`)
 			},
+			goToMap() {
+			    uni.showToast({ title: '点击到了！正在跳转...', icon: 'none', duration: 2000 });
+			    // 👇 修正路径：去掉开头的 /，用相对路径（首页→map文件夹→totalMap页面）
+			    const mapUrl = '../map/totalMap'; // 正确路径！不是 /map/totalMap 也不是 ./map/totalMap
+			    uni.navigateTo({
+			      url: mapUrl,
+			      success: () => { console.log('总地图跳转成功'); },
+			      fail: (err) => { 
+			        uni.showToast({ title: '跳转失败：' + err.errMsg, icon: 'none', duration: 5000 });
+			        console.log('失败原因：', err);
+			      }
+			    });
+			  },
 			onPageTap2(index) {
 				let url = '../' + index + '/list'
 				if(index=='kefuguanli') {
@@ -421,6 +506,7 @@
 					}
 				});
 			}
+			
 		}
 	}
 </script>

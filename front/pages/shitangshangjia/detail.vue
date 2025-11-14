@@ -1,5 +1,6 @@
 
 <template>
+	
 <view>
 <mescroll-uni @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
 	<view class="content">
@@ -52,11 +53,31 @@
 					<view class="text" :style='{"padding":"0px","margin":"0px","lineHeight":"48rpx","fontSize":"28rpx","color":"#929292"}' >{{detail.storeupnum}}</view>
 				</view>
 
-
+<view style="padding: 10rpx; background: #f5f5f5; margin: 10rpx 0;">
+  <text style="fontSize: 28rpx; color: #ff0000;">当前店铺ID：{{ storeId }}</text>
+</view>
 
 				<view class="detail-list-item" :style='{"padding":"10rpx 0","margin":"0 0 10rpx","borderColor":"#ccc","borderWidth":"0","display":"flex","width":"100%","borderStyle":"solid","height":"auto"}'>
 					<view class="lable" :style='{"padding":"0 20rpx 0 0","whiteSpace":"nowrap","color":"#000","textAlign":"right","width":"auto","lineHeight":"48rpx","fontSize":"28rpx","fontWeight":"bold"}'>介绍：</view>
 					<view class="text" :style='{"padding":"0px","margin":"0px","lineHeight":"48rpx","fontSize":"28rpx","color":"#929292"}'>{{detail.jieshao}}</view>
+				</view>
+				<!-- front/pages/shitangshangjia/detail.vue -->
+				<view 
+				  :style='{
+				    "width": "100%",
+				    "padding": "30rpx",
+				    "margin": "40rpx 0",
+				    "background": "#fff",
+				    "borderRadius": "30rpx",
+				    "display": "flex",
+				    "alignItems": "center",
+				    "justifyContent": "center",
+				    "boxShadow": "0 2rpx 10rpx rgba(0,0,0,0.05)",
+				    "border": "2rpx solid orange"
+				  }' 
+				  @tap="goToStoreMap"
+				>
+				  <text :style='{"fontSize":"34rpx","color":"#333","fontWeight":"500"}'>查看店铺位置</text>
 				</view>
 
 
@@ -133,6 +154,7 @@
 				id: '',
 				userid: '',
 				detail: {},
+				storeId: '',
 				swiperList: [],
 				commentList: [],
 				mescroll: null, //mescroll实例对象
@@ -230,6 +252,12 @@
 					urls: arr
 				})
 			},
+			goToStoreMap() {
+			      uni.navigateTo({
+			        // 传递店铺ID到地图页
+			        url: '../map/storeMap?id=' + this.storeId
+			      });
+			    },
 			// 拨打电话
 			callClick(row){
 				uni.makePhoneCall({
